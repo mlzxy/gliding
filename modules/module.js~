@@ -1,0 +1,47 @@
+exports.module = module;
+exports.CONTENT = CONTENT;  //need to be put in the master file
+exports.Export = Export;
+exports.allModules = allModules;  //need to be put in the master file
+exports.modulesToService = modulesToService;  //need to be put in the master file
+
+var CONTENT = 'content';
+var register = function(name,content){
+   this[CONTENT][name] = content;
+}
+
+var module = function(mname){
+  this.factory = {};
+  this.factory[CONTENT] = {};
+  this.factory.register = register;//TODO need add getter,setter check in factory
+  ////////////////////////////////////////
+  this.provider = {}; 
+  this.provider[CONTENT] = {};
+  this.provider.register = register;
+} 					
+
+
+var Export = function(m){
+ exports.module = m;
+}
+
+/////////////////////////////////////
+var requi = require('requi');
+
+var allModules = function(p){
+return requi(p, {
+    recursive : true
+});
+}
+
+var modulesToService = function(modules) {
+ var cM = null;
+ for (var mn in modules) {
+   cM = modules[mn];
+   if (cM.hasOwnProperty('module')){
+	///TODO
+   }
+ }
+}
+
+
+/////////////////////////////////////之后好像再加上一个全局的运行机制t.apply(this,[1,2])，注册机制，还有local_provide的机制，不用担心会对象重叠，因为每次进入callback都新创建一个，就完了？？？ 

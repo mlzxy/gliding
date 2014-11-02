@@ -1,4 +1,6 @@
 exports.getArguments = getArguments;
+
+
 var P = /\(.*\)\ *\{/;
 function getArguments(f){
    var source = f.toString();

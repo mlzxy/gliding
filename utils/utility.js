@@ -2,24 +2,23 @@ exports.getArguments = getArguments;
 
 
 var P = /\(.*\)\ *\{/;
-function getArguments(f){
-   var source = f.toString();
-   var argStr = source.match(P)[0]; 
-   var arg = argStr.removeALL('(',')',' ','{');
-   return arg.split(',');
-}
-
-String.prototype.remove = function (c) {
-    return this.replace(c,'');
+var getArguments = function(f) {
+    var source = f.toString();
+    var argStr = source.match(P)[0];
+    var arg = removeALL(argStr, '(', ')', ' ', '{');
+    return arg.split(',').sort();
 };
 
-String.prototype.removeAll = function(){
-var t = this,
-    i = 0;
-while(i < arguments.length){
-   t.remove(arguments[i]);
-   i = i + 1;
- }
+remove = function(str, c) {
+    return str.replace(c, '');
 };
 
-
+removeALL = function(str) {
+    var t = str,
+        i = 1;
+    while (i < arguments.length) {
+        t = t.remove(arguments[i]);
+        i = i + 1;
+    }
+    return t;
+};
