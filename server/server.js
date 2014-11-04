@@ -1,3 +1,8 @@
+/*!
+ * gliding
+ * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
+ * MIT Licensed
+ */
 exports.Server = server;
 
 
@@ -16,7 +21,7 @@ var route = require('../route/route.js');
 
 var defaultOptions = {
     PORT: 8080,
-    PATH: ".",
+    PATH: "./src",
     PUBLIC: "./public",
     TMPL_EXTENSION: ".tmpl",
     TMPL_ENCODE: "utf8",

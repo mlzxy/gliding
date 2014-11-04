@@ -1,28 +1,14 @@
-exports.db = db;
-exports.render = render;
-exports.errorHandle = errorHandle;
-exports.tmplFile = templateHash;
-exports.scope = scopeMaker;
-exports.http = httpMaker;
-
-
+exports.renderer = render;
+exports.errorHandle = simple_ErrorHandle;
+exports.final = function() {};
 var walk = require('walk');
-
-var errorHandle = Error.prototype.constructor();
-
-var db = {};
-
 var template = require('swig');
 
-var scopeMaker = function() {
-    return {};
+var simple_ErrorHandle = function() {
+    this.printError = function(e) {
+        console.log(e);
+    };
 };
-
-var httpMaker = function(request, response) { //this one is special, built in.
-    this.Request = request;
-    this.Response = response;
-};
-
 ///////////////////////////////////////////////////////////////////////////////////////
 var render = function() {
     if (!options.PUBLIC.endsWith('/')) {
@@ -30,6 +16,8 @@ var render = function() {
     }
     var len = options.PUBLIC.length;
     var templateHash = {};
+
+    var myTemplate = options.TEMPLATE_ENGINE || template;
 
     walk_options = {
         listeners: {
@@ -45,17 +33,12 @@ var render = function() {
     };
 
     walk.walkSync(options.PUBLIC, walk_options);
-    return function(name, json) {
-        return template.render(templateHash[name], json);
+
+
+
+    return function() {
+        this.render = function(name, json) {
+            return myTemplate.render(templateHash[name], json);
+        };
     };
 }();
-
-
-
-
-//在这里读入所有的template file
-//work flow, finish coding
-//debuging
-//write package JSON+license+ReadMe
-// commit to github
-// 嘚瑟

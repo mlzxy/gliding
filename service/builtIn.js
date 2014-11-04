@@ -1,6 +1,11 @@
+/*!
+ * gliding
+ * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
+ * MIT Licensed
+ */
 exports.renderer = render;
 exports.errorHandle = simple_ErrorHandle;
-exports.final = function() {};
+exports.final = undefined;
 var walk = require('walk');
 var template = require('swig');
 

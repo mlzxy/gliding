@@ -1,3 +1,8 @@
+/*!
+ * gliding
+ * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
+ * MIT Licensed
+ */
 exports.Router = myRoute;
 exports.coreRoute = coreRoute;
 
@@ -94,10 +99,10 @@ var getRouteHandler = function(funChain, options, service) {
         $scope.HTTP = {};
         $scope.HTTP.Request = request;
         $scope.HTTP.Response = response;
+        $scope.PARAMS = request.params;
         var realArgList = [$scope];
 
         function final() {
-            service['$final']($scope);
             response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
             if ($scope.HTML != undefined) {
                 response.write(service['$template'].render($scope.HTML, $scope.JSON));
