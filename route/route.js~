@@ -1,0 +1,17 @@
+exports.Router = myRoute;
+exports.coreRoute = coreRoute;
+
+var route = require('router');
+var myRoute = router();
+var walk = require('walk'); // for file serving
+var fs = require('fs');
+var http = require("http");
+var url = require("url");
+
+
+
+var coreRoute = function(options) { //deal with static file server, you could disable the static file server if you use ngnix, currently it is recommended because the static file serve machenism is pretty simple
+    //inject machenism
+    //todo
+    return function(request, response) {};
+};

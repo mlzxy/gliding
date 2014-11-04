@@ -1,9 +1,13 @@
 exports.Export = Export;
-exports.Module = module;
+exports.Module = myModule;
 
+var util = require('../util/util.js');
 
 var registerProvider = function(name, content) {
     try {
+        if (util.isFunction(content))
+            throw new Error("Provider: " + name + " is not a Object!\n");
+
         if (name.startsWith('$')) {
             if (!name.endsWith('Factory')) {
                 this.content.push({
@@ -21,6 +25,8 @@ var registerProvider = function(name, content) {
 
 var registerFactory = function(name, content) {
     try {
+        if (util.isFunction(content))
+            throw new Error("Factory: " + name + " is not a Object!\n");
         if (name.endsWith('Factory')) {
             if (!name.startsWith('$')) {
                 this.content.push({
@@ -36,20 +42,26 @@ var registerFactory = function(name, content) {
     } catch (e) {}
 };
 
-var registerHandler = function(method, pathName, funChain, template) {
+var registerHandler = function(method, pathName, funChain, options) {
     try {
+        for (v in funChain) {
+            if (!util.isFunction(funChain[v]))
+                throw new Error("Handler: " + pathName + "\n" + "Method:" + method + "\n There are non-functions in the function array!\n");
+        }
+
         if (method == 'POST' || method == 'GET')
             this.content.push({
                 'pathName': method + pathName,
-                'funChain': funChain
+                'funChain': funChain,
+                'options': options
             });
         else
-            throw new Error('Handler method not GET or POST. Remember use capital letter :)\n');
+            throw new Error('Handler method not GET or POST, currently only GET and POST methods are supported. Also remember use capital letter :)\n');
     } catch (e) {}
 };
 
 
-var module = function(mname) {
+var Module = function(mname) {
     this.factory = {};
     this.factory.content = [];
     this.factory.register = registerFactory;
@@ -66,5 +78,5 @@ var module = function(mname) {
 
 
 var Export = function(m) {
-    exports.module = m;
+    exports.myModule = m;
 };

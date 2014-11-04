@@ -1,17 +1,6 @@
 exports.getArguments = getArguments;
-exports.getArgFunChain = getArgFunChain;
 var P = /\(.*\)\ *\{/;
 
-var getArgFunChain = function(funChain, system) {
-    var result = [],
-        arg = null,
-        fun = null;
-    for (var i = 0; i < funChain.length; i++) {
-        fun = funChain[i];
-        arg = getArg.getArguments(fun);
-        system.functionToArguments[fun] = arg.array;
-    }
-};
 
 
 
@@ -38,11 +27,4 @@ var removeALL = function(str) {
         i = i + 1;
     }
     return t;
-};
-
-String.prototype.startsWith = function(str) {
-    return this.indexOf(str) == 0;
-};
-String.prototype.endsWith = function(suffix) {
-    return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };

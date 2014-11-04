@@ -1,13 +1,14 @@
 exports.Server = server;
 
-var http = require("http");
-var url = require("url");
-var service = require('../service/service.js');
-var getArg = require('../util/getArg.js');
-var getModule = require('../util/getModule.js');
-var router = require('router');
-var routeGlobal = router();
 
+var util = require('../util/util.js');
+
+
+var service = require('../service/service.js');
+var getModule = require('../util/getModule.js');
+
+
+var route = require('../route/route.js');
 
 
 
@@ -16,55 +17,52 @@ var routeGlobal = router();
 var defaultOptions = {
     PORT: 8080,
     PATH: ".",
-    PUBLIC: "./public"
+    PUBLIC: "./public",
+    TMPL_EXTENSION: ".tmpl",
+    TMPL_ENCODE: "utf8",
+    TEMPLATE_ENGINE: undefined,
+    STATIC_SERVER: undefined
 };
 
+
+
 var server = function(options) {
-    this.options = options || defaultOptions;
+    this.options = util.mergeOptions(options, defaultOptions);
     var modules = getModule.allModules(options.PATH),
-        services = getModule.modulesToService(modules);
-
-    var factory = {},
-        provider = {},
-        handler = {},
-        functionToArguments = {},
-        serviceToJSON = {};
+        all = getModule.modulesToService(modules);
 
 
-    builtInService(factory, provider, options);
-    buildDep(factory, provider, services.factory, services.provider, serviceToJSON);
-    this.serviceToJSON = serviceToJSON;
-    this.factory = factory;
-    this.provider = provider;
+    this.handler = {};
+    this.handlerOptions = {};
+    this.service = {};
 
 
-    this.handler = handler;
-    this.functionToArguments = functionToArguments;
-    for (var i = 0; i < services.handler.length; i++) {
-        var elm = services.handler[i];
-        handler[elm.pathName] = elm.funChain;
-        getArg.getArgFunChain(elm.funChain, this); //map the function name to the arg List
-    }
+    this.service = service.builtInService(options);
+    this.service = service.merge(this.service, all.service);
 
 
-    for (v in handler) {
+
+    /////////////////////////////////////////////////////////////
+    for (var i = 0; i < all.handler.length; i++) {
+        var elm = all.handler[i];
+        this.handler[elm.pathName] = elm.funChain;
+        this.handlerOptions[elm.pathName] = elm.options;
+    };
+    /////////////////////////////////////////////////////////
+
+    var Router = route.Router(this.options);
+
+    this.routeHandler = route.coreRoute(this); // map the url path to the real handlefunction
+    for (v in this.handler) {
         if (v.startsWith('POST')) {
-            routeGlobal.post(v.slice(4), routeCallBack);
+            Router.post(v.slice(4), this.routeHandler[v]);
         } else {
-            routeGlobal.get(v.slice(3), routeCallBack);
+            Router.get(v.slice(3), this.routeHandler[v]);
         }
     }
 
     this.Run = function() {
-        http.createServer(routeGlobal).listen(this.options.PORT);
+        http.createServer(Router).listen(this.options.PORT);
         console.log('Server has started.\n');
     };
-};
-
-
-
-
-
-var routeCallBack = function(request, response) {
-    //todo
 };

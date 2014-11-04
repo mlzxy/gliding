@@ -13,16 +13,15 @@ var modulesToService = function(modules) {
     var cM = null,
         thisModule = null,
         serviceSet = {};
-    serviceSet['factory'] = {};
-    serviceSet['provider'] = {};
+    serviceSet['service'] = {};
     serviceSet['handler'] = [];
 
     for (var mn in modules) {
         cM = modules[mn];
-        if (cM.hasOwnProperty('module')) {
-            thisModule = cM['module'];
-            incorperate(serviceSet.factory, thisModule.factory.content, 'factory');
-            incorperate(serviceSet.provider, thisModule.provider.content, 'provider');
+        if (cM.hasOwnProperty('myModule')) {
+            thisModule = cM['myModule'];
+            incorperate(serviceSet.service, thisModule.factory.content);
+            incorperate(serviceSet.service, thisModule.provider.content);
             serviceSet.handler = serviceSet.handler.concat(thisModule.handler.content);
         }
     }
@@ -30,7 +29,7 @@ var modulesToService = function(modules) {
 };
 
 
-var incorperate = function(obj, arr, forWhat) {
+var incorperate = function(obj, arr) {
     for (var i = 0; i < arr.length; i++) {
         item = arr[i];
         obj[item.key] = item.value;

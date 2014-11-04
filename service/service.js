@@ -1,21 +1,18 @@
 exports.builtInService = builtInService;
-exports.buildDep = buildDep;
-
-
+exports.merge = merge;
 var builtIn = require('../service/buildIn.js');
 
-
-var builtInService = function(factory, provider, options) {
-    provider['$db'] = builtIn.db;
-    provider['$template'] = builtIn.template;
-    provider['$static'] = builtIn.static;
-    provider['$scope'] = builtIn.scope;
-    provider['$http'] = builtIn.http;
+var builtInService = function(options) {
+    var provider = {};
+    provider['$render'] = builtIn.renderer;
+    provider['$errorHandle'] = builtIn.errorHandle;
+    provider['$final'] = builtIn.final;
+    return provider;
 };
 
-
-
-
-function buildDep(factory, provider, userFactory, userProvider, serviceToJSON) {
-    //todo Build JSON for each service
+function merge(service, allService) {
+    for (v in allServices) {
+        service[v] = allService[v];
+    }
+    return service;
 };

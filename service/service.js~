@@ -1,0 +1,25 @@
+exports.builtInService = builtInService;
+exports.buildDep = buildDep;
+
+
+var builtIn = require('../service/buildIn.js');
+
+
+var builtInService = function(provider, options) {
+    provider['$db'] = builtIn.db;
+    provider['$render'] = builtIn.render;
+    provider['$tmplFile'] = builtIn.tmplFile;
+    provider['$scope'] = builtIn.scope;
+    provider['$simple_http'] = builtIn.http;
+    provider['$errorHandle'] = builtIn.errorHandle;
+};
+
+
+
+
+function buildDep(factory, provider, userFactory, userProvider) {
+    //todo Build JSON for each service
+    var serviceToJSON = {};
+
+    return serviceToJSON;
+};
