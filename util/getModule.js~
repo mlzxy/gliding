@@ -20,6 +20,7 @@ var modulesToService = function(modules) {
         serviceSet = {};
     serviceSet['service'] = {};
     serviceSet['handler'] = [];
+    debugger;
     for (var mn = 0; mn < modules.length; mn++) {
         cM = modules[mn];
         if (cM.hasOwnProperty('myModule')) {

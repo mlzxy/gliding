@@ -23,7 +23,6 @@ var defaultOptions = {
 
 
 var server = function(options) {
-    debugger;
     this.options = util.mergeOptions(options, defaultOptions);
     var modules = getModule.allModules(options.MODULES),
         all = getModule.modulesToService(modules);
@@ -46,7 +45,6 @@ var server = function(options) {
         this.handlerOptions[elm.pathName] = elm.options;
     };
     /////////////////////////////////////////////////////////
-    debugger;
     var Router = route.Router(this.options);
 
     this.routeHandler = route.coreRoute(this); // map the url path to the real handlefunction

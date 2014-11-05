@@ -12,9 +12,25 @@ var url = require('url');
 var path = require('path');
 var fs = require('fs');
 
+var clc = require('cli-color');
+var error = clc.red.bold;
+var warn = clc.yellow;
+var notice = clc.blue.bgWhite;
+var prettyjson = require('prettyjson');
+
+function headPrint(res) {
+    var options = {
+        noColor: true
+    };
+    console.log(clc.yellow.inverse.bgWhite("HTTP HEADER:"));
+    for (v in res.headers) {
+        console.log(clc.blue.inverse.bgWhite(v + ': ') + res.headers[v]);
+    }
+}
 var myRoute = function(options) {
     var rou = router();
     var simple_server = function(request, response) {
+        headPrint(request);
         var pathname = url.parse(request.url).pathname;
         var realPath = options.PUBLIC + pathname.slice(1);
         fs.exists(realPath, function(exists) {
@@ -22,7 +38,7 @@ var myRoute = function(options) {
                 response.writeHead(404, {
                     'Content-Type': 'text/plain'
                 });
-                console.log(pathname + ' 404 not found');
+                console.log(notice('request for ' + pathname + ' but 404 not found'));
                 response.write("This request URL " + pathname + " was not found on this server.");
                 response.end();
             } else {
@@ -31,7 +47,7 @@ var myRoute = function(options) {
                         response.writeHead(500, {
                             'Content-Type': 'text/plain'
                         });
-                        console.log(err);
+                        console.log(error("INTERNAL ERROR:\n" + err));
                         response.write("This request URL " + pathname + ' cause internal error on this server.');
                         response.end();
                     } else {
@@ -39,7 +55,7 @@ var myRoute = function(options) {
                         response.writeHead(200, {
                             'Content-Type': contentType
                         });
-                        console.log('request for ' + pathname);
+                        console.log(notice('request for ' + pathname + ' founded'));
                         response.write(file, "binary");
                         response.end();
                     }
@@ -62,7 +78,6 @@ var coreRoute = function(system) {
 };
 
 var getRouteHandler = function(funChain, options, service) {
-    debugger;
     var f2arg = {};
     for (i in funChain) {
         var f = funChain[i],
@@ -80,7 +95,7 @@ var getRouteHandler = function(funChain, options, service) {
     }
     //////////////////////////////////////////////////////////////////////////////
     return function(request, response) { //use bind
-
+        debugger;
         var funQueue = [];
         copyArray(funQueue, funChain);
         var argQueue = [];
@@ -92,6 +107,8 @@ var getRouteHandler = function(funChain, options, service) {
         $scope.HTTP.Request = request;
         $scope.HTTP.Response = response;
         $scope.PARAMS = request.params;
+        $scope.HTTP.status = 200;
+        $scope.HTTP.HEAD = 'text/html';
         var realArgList = [$scope];
 
 

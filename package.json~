@@ -1,0 +1,31 @@
+{
+    "name": "gliding",
+    "version": "0.1.0",
+    "description": "a minimal and hopefully modular web framework in nodejs, also try to save you from the callback hell",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "framework",
+        "web",
+        "app"
+    ],
+    "dependencies": {
+        "swig": "1.4.2",
+        "router": "0.6.2",
+        "walk": "2.3.4",
+        "mime": "0.5.1",
+        "requi": "0.2.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "author": {
+        "name": "Xinyu Zhang",
+        "email": "bevis@mail.ustc.edu.cn",
+        "web": "http://kitten-bear.org"
+    },
+    "license": "MIT"
+}

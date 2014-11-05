@@ -10,7 +10,6 @@ var P = /\(.*\)\ *\{/;
 
 
 var getArguments = function(f) {
-    debugger;
     var source = f.toString();
     var argStr = source.match(P);
     var arg = removeALL(argStr[0], '(', ')', ' ', '{');
