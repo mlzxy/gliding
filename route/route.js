@@ -3,8 +3,6 @@
  * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
  * MIT Licensed
  */
-exports.Router = myRoute;
-exports.coreRoute = coreRoute;
 
 var route = require('router');
 var walk = require('walk'); // for file serving
@@ -60,26 +58,6 @@ var coreRoute = function(system) {
 
 
 
-function dequeue(a) {
-    var x = a[0];
-    a.shift();
-    return x;
-}
-
-
-function enqueue(a, elm) {
-    a.push(elm);
-}
-
-function hasCallback(a) {
-    return a.hasOwnProperty('callback');
-}
-
-function copyArray(a, o) {
-    for (var v in o) a[v] = o[v];
-}
-
-
 
 var getRouteHandler = function(funChain, options, service) {
     var f2arg = {};
@@ -103,9 +81,13 @@ var getRouteHandler = function(funChain, options, service) {
         var realArgList = [$scope];
 
         function final() {
+
             response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
             if ($scope.HTML != undefined) {
                 response.write(service['$template'].render($scope.HTML, $scope.JSON));
+                response.end();
+            } else if ($scope.TMPL != undefined) {
+                response.write(service['$render'].render($scope.TMPL, $scope.JSON));
                 response.end();
             } else {
                 response.write($scope.JSON);
@@ -136,9 +118,7 @@ var getRouteHandler = function(funChain, options, service) {
                         var retureValue = argQueue.stage.apply(this, realArgList);
                         if (retureValue != false) {
                             realArgList = [$scope];
-
                             fun2arg();
-
                             fall();
                         } else { // end soon
                             final();
@@ -166,41 +146,32 @@ var getRouteHandler = function(funChain, options, service) {
         } catch (e) {}
     };
 };
+
+
+//////////////////////utility//////////////////////
+function dequeue(a) {
+    var x = a[0];
+    a.shift();
+    return x;
+}
+
+
+function enqueue(a, elm) {
+    a.push(elm);
+}
+
+function hasCallback(a) {
+    return a.hasOwnProperty('callback');
+}
+
+function copyArray(a, o) {
+    for (var v in o) a[v] = o[v];
+}
+
 // completely no inherite, and pass scope, options into the callback, so it could do a lot of things.
-
-
-
-
 
 //handler => {"path": [f1,f2,f3]};
 //service => {"$service": obj}
 //handlerOptions => {"path": options}
-
-// don't use eval
-
-//example
-
-// var co = function() { //example service
-
-//     function double(x) {
-//         return 2 * x;
-//     };
-
-//     function mySetTimeout(x, y) {
-//         setTimeout(x, y);
-//     }
-
-
-//     this.callback = function(data, options, funChain) {
-//         switch (options.choose) {
-//             case 'a':
-//                 setTimeout(function(a,b){
-//                             $example = [a,b];
-//                              fall($example)
-//}, data);
-//                 break;
-//             default:
-//                 mySetTimeout(funChain, data);
-//         }
-//     };
-// };
+exports.Router = myRoute;
+exports.coreRoute = coreRoute;

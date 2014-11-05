@@ -3,15 +3,14 @@
  * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
  * MIT Licensed
  */
-exports.allModules = allModules;
-exports.modulesToService = modulesToService;
 
-var requi = require('requi');
 
-var allModules = function(p) {
-    return requi(p, {
-        recursive: true
-    });
+
+
+var allModules = function(pathArray) {
+    var result = [];
+    for (var i = 0; i < pathArray.length; i++)
+        result.push(require(pathArray[i]));
 };
 
 var modulesToService = function(modules) {
@@ -21,7 +20,7 @@ var modulesToService = function(modules) {
     serviceSet['service'] = {};
     serviceSet['handler'] = [];
 
-    for (var mn in modules) {
+    for (var mn = 0; mn < modules.length; mn++) {
         cM = modules[mn];
         if (cM.hasOwnProperty('myModule')) {
             thisModule = cM['myModule'];
@@ -40,3 +39,6 @@ var incorperate = function(obj, arr) {
         obj[item.key] = item.value;
     }
 };
+
+exports.allModules = allModules;
+exports.modulesToService = modulesToService;

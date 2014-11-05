@@ -3,7 +3,6 @@
  * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
  * MIT Licensed
  */
-exports.getArguments = getArguments;
 var P = /\(.*\)\ *\{/;
 
 
@@ -14,10 +13,7 @@ var getArguments = function(f) {
     var source = f.toString();
     var argStr = source.match(P)[0];
     var arg = removeALL(argStr, '(', ')', ' ', '{');
-    var result = {};
-    result.array = arg.split(',').sort();
-    result.string = arg;
-    return result;
+    return arg.split(',').sort();;
 };
 
 var remove = function(str, c) {
@@ -33,3 +29,5 @@ var removeALL = function(str) {
     }
     return t;
 };
+
+exports.getArguments = getArguments;

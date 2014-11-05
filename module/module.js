@@ -3,11 +3,8 @@
  * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
  * MIT Licensed
  */
-exports.Export = Export;
-exports.Module = myModule;
 
 var util = require('../util/util.js');
-var buildIn = require('../service/builtIn.js');
 
 var registerProvider = function(name, content) {
     try {
@@ -55,9 +52,6 @@ var registerHandler = function(method, pathName, funChain, options) {
                 throw new Error("Handler: " + pathName + "\n" + "Method:" + method + "\n There are non-functions in the function array!\n");
         }
 
-        if (buildIn.final != undefined)
-            funChain.push(buildIn.final);
-
         if (method == 'POST' || method == 'GET')
             this.content.push({
                 'pathName': method + pathName,
@@ -70,7 +64,7 @@ var registerHandler = function(method, pathName, funChain, options) {
 };
 
 
-var Module = function(mname) {
+var myModule = function() {
     this.factory = {};
     this.factory.content = [];
     this.factory.register = registerFactory;
@@ -86,6 +80,5 @@ var Module = function(mname) {
 };
 
 
-var Export = function(m) {
-    exports.myModule = m;
-};
+
+exports.Module = myModule;

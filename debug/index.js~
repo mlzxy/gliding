@@ -1,0 +1,9 @@
+var gliding = require('../gliding/index.js');
+
+var options = {};
+options.PATH = './modules/';
+options.PUBLIC = './public/';
+
+debugger;
+var myServer = gliding.Server(options);
+myServer.Run();

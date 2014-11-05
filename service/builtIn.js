@@ -3,28 +3,24 @@
  * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
  * MIT Licensed
  */
-exports.renderer = render;
-exports.errorHandle = simple_ErrorHandle;
-exports.final = undefined;
 var walk = require('walk');
 var template = require('swig');
-
+var fs = require('fs');
 var simple_ErrorHandle = function() {
     this.printError = function(e) {
         console.log(e);
     };
 };
 ///////////////////////////////////////////////////////////////////////////////////////
-var render = function() {
-    if (!options.PUBLIC.endsWith('/')) {
-        options.PUBLIC = options.PUBLIC.concat('/');
-    }
+var renderer = function(options) {
     var len = options.PUBLIC.length;
     var templateHash = {};
 
-    var myTemplate = options.TEMPLATE_ENGINE || template;
 
-    walk_options = {
+    template = options.TEMPLATE_ENGINE || template;
+    var myTemplate = template;
+
+    var walk_options = {
         listeners: {
             file: function(root, stat, next) {
                 if (stat.name.endsWith(options.TMPL_EXTENSION)) {
@@ -41,9 +37,14 @@ var render = function() {
 
 
 
-    return function() {
+    return new function() {
         this.render = function(name, json) {
             return myTemplate.render(templateHash[name], json);
         };
-    };
-}();
+    }();
+};
+
+exports.renderer = renderer;
+exports.errorHandle = simple_ErrorHandle;
+exports.final = undefined;
+exports.template = template;

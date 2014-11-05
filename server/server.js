@@ -3,25 +3,15 @@
  * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
  * MIT Licensed
  */
-exports.Server = server;
-
-
 var util = require('../util/util.js');
-
-
 var service = require('../service/service.js');
 var getModule = require('../util/getModule.js');
-
-
 var route = require('../route/route.js');
-
-
-
-
 
 var defaultOptions = {
     PORT: 8080,
-    PATH: "./src",
+    PATH: undefined,
+    MODULES: [],
     PUBLIC: "./public",
     TMPL_EXTENSION: ".tmpl",
     TMPL_ENCODE: "utf8",
@@ -32,8 +22,9 @@ var defaultOptions = {
 
 
 var server = function(options) {
+    debugger;
     this.options = util.mergeOptions(options, defaultOptions);
-    var modules = getModule.allModules(options.PATH),
+    var modules = getModule.allModules(options),
         all = getModule.modulesToService(modules);
 
 
@@ -71,3 +62,5 @@ var server = function(options) {
         console.log('Server has started.\n');
     };
 };
+
+exports.Server = server;

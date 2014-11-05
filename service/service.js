@@ -3,13 +3,12 @@
  * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
  * MIT Licensed
  */
-exports.builtInService = builtInService;
-exports.merge = merge;
-var builtIn = require('../service/buildIn.js');
+var builtIn = require('../service/builtIn.js');
 
 var builtInService = function(options) {
     var provider = {};
-    provider['$render'] = builtIn.renderer;
+    provider['$render'] = builtIn.renderer(options);
+    provider['$template'] = builtIn.template;
     provider['$errorHandle'] = builtIn.errorHandle;
     provider['$final'] = builtIn.final;
     return provider;
@@ -21,3 +20,6 @@ function merge(service, allService) {
     }
     return service;
 };
+
+exports.builtInService = builtInService;
+exports.merge = merge;
