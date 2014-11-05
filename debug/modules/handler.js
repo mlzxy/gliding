@@ -23,7 +23,7 @@ var f3 = function($scope) {
 
 
 var f4 = function($scope) {
-    $scope.TMPL = "";
+    $scope.TMPL = "index.tmpl";
     $scope.JSON = {
         name: 'Xinyu Zhang'
     };
@@ -37,6 +37,9 @@ md.handler.register("GET", [f1, f2, f3], {
 });
 
 md.handler.register("GET", [f4]);
+
+
+
 
 
 exports.myModule = md;

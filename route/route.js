@@ -56,14 +56,14 @@ var coreRoute = function(system) {
     return routeHandler;
 };
 
-
-
-
 var getRouteHandler = function(funChain, options, service) {
     var f2arg = {};
     for (f in funChain) {
         f2arg[f] = getArg.getArguments(f).slice(1);
     }
+    var $final = service['$final'];
+    if ($final != undefined)
+        f2arg[$final] = getArg.getArguments($final).slice(1);
 
     return function(request, response) { //use bind
 
@@ -79,6 +79,23 @@ var getRouteHandler = function(funChain, options, service) {
         $scope.HTTP.Response = response;
         $scope.PARAMS = request.params;
         var realArgList = [$scope];
+
+
+
+        function end() {
+            if ($final != undefined) {
+                if (argQueue.stage != $final) {
+                    realArgList = [$scope];
+                    funQueue.push($final);
+                    fun2arg();
+                    fall();
+                }
+            } else {
+                final();
+            }
+        }
+
+
 
         function final() {
 
@@ -112,7 +129,7 @@ var getRouteHandler = function(funChain, options, service) {
                     if (funQueue.length == 0) { // also could be the end
                         argQueue.stage.apply(this, realArgList); //call the last function in the chain and do the final procedure
                         ///////////////////////////FINAL PROCEDURE//////////////////////////
-                        final();
+                        end();
                     } else {
                         // get another fun from funChain, could terminated by null return. Also push $scope, and if this function has no argument, if not , then call directly
                         var retureValue = argQueue.stage.apply(this, realArgList);
@@ -120,8 +137,9 @@ var getRouteHandler = function(funChain, options, service) {
                             realArgList = [$scope];
                             fun2arg();
                             fall();
-                        } else { // end soon
-                            final();
+                        } else {
+                            ////////////////// end soon
+                            end();
                         }
                     }
                 }
@@ -139,10 +157,8 @@ var getRouteHandler = function(funChain, options, service) {
                 }
             }
         }
-
         try {
-            // 1 2 3!! jump!
-            fall();
+            fall(); // 1 2 3!! jump!
         } catch (e) {}
     };
 };
@@ -168,10 +184,6 @@ function copyArray(a, o) {
     for (var v in o) a[v] = o[v];
 }
 
-// completely no inherite, and pass scope, options into the callback, so it could do a lot of things.
 
-//handler => {"path": [f1,f2,f3]};
-//service => {"$service": obj}
-//handlerOptions => {"path": options}
 exports.Router = myRoute;
 exports.coreRoute = coreRoute;
