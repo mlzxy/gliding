@@ -1,5 +1,10 @@
+/*!
+ * gliding
+ * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
+ * MIT Licensed
+ */
 var gliding = require('../../index.js');
-debugger;
+
 
 var md = new gliding.Module();
 
@@ -31,7 +36,7 @@ var naiveFactory = function() {
                 default:
                     mySetTimeout(next, data.timeoutLength);
             } else
-            setTimeout(next, data.timeoutLength);
+                setTimeout(next, data.timeoutLength);
     };
 };
 

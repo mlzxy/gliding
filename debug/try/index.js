@@ -1,8 +1,13 @@
+/*!
+ * gliding
+ * Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn
+ * MIT Licensed
+ */
 var PORT = 8000;
 var http = require('http');
 var url = require('url');
-var server = http.createServer(function (request, response) {
-     var pathname = url.parse(request.url).pathname;
+var server = http.createServer(function(request, response) {
+    var pathname = url.parse(request.url).pathname;
     response.write(pathname);
     response.end();
 });
