@@ -1,24 +1,24 @@
 {
-  "name": "gliding",
-  "version": "0.1.0",
-  "description": "a super minimal web framework based on nodejs, try to save you from the callback hell",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "framework",
-    "web",
-    "route"
-  ],
-  "author": "Xinyu Zhang",
-  "license": "MIT",
-  "dependencies": {
-    "cli-color": "^0.3.2",
-    "mime": "^1.2.11",
-    "prettyjson": "^1.0.0",
-    "router": "^0.6.2",
-    "swig": "^1.4.2",
-    "walk": "^2.3.4"
-  }
+    "name": "gliding",
+    "version": "0.1.2",
+    "description": "a super minimal web framework based on nodejs, try to save you from the callback hell",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "framework",
+        "web",
+        "route"
+    ],
+    "author": "Xinyu Zhang",
+    "license": "MIT",
+    "dependencies": {
+        "cli-color": "^0.3.2",
+        "mime": "^1.2.11",
+        "prettyjson": "^1.0.0",
+        "router": "^0.6.2",
+        "swig": "^1.4.2",
+        "walk": "^2.3.4"
+    }
 }
