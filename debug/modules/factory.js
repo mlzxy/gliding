@@ -1,4 +1,5 @@
 var gliding = require('../../index.js');
+debugger;
 
 var md = new gliding.Module();
 
@@ -33,7 +34,7 @@ var naiveFactory = function() {
 };
 
 
-md.factory.register('naiveFactory', naiveFactory());
+md.factory.register('naiveFactory', new naiveFactory());
 
 
 exports.myModule = md;

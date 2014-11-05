@@ -7,60 +7,55 @@
 var util = require('../util/util.js');
 
 var registerProvider = function(name, content) {
-    try {
-        if (util.isFunction(content))
-            throw new Error("Provider: " + name + " is not a Object!\n");
-
-        if (name.startsWith('$')) {
-            if (!name.endsWith('Factory')) {
-                this.content.push({
-                    'key': name,
-                    'value': content
-                });
-            } else {
-                throw new Error("Provider: " + name + " should not end with \'Factory\'");
-            }
+    if (name.startsWith('$')) {
+        if (!name.endsWith('Factory')) {
+            this.content.push({
+                'key': name,
+                'value': content
+            });
         } else {
-            throw new Error("Provider: " + name + " does not begin with \'$\'");
+            throw new Error("Provider: " + name + " should not end with \'Factory\'");
         }
-    } catch (e) {}
+    } else {
+        throw new Error("Provider: " + name + " does not begin with \'$\'");
+    }
+
 };
 
 var registerFactory = function(name, content) {
-    try {
-        if (util.isFunction(content))
-            throw new Error("Factory: " + name + " is not a Object!\n");
-        if (name.endsWith('Factory')) {
-            if (!name.startsWith('$')) {
-                this.content.push({
-                    'key': name,
-                    'value': content
-                });
-            } else {
-                throw new Error("Factory: " + name + " should not begin with \'$\'");
-            }
+
+    if (!util.isObject(content))
+        throw new Error("Factory: " + name + " is not a object!\n" + name + "is a type of " + typeof content);
+    if (name.endsWith('Factory')) {
+        if (!name.startsWith('$')) {
+            this.content.push({
+                'key': name,
+                'value': content
+            });
         } else {
-            throw new Error("Factory: " + name + " does not end with \'Factory\'");
+            throw new Error("Factory: " + name + " should not begin with \'$\'");
         }
-    } catch (e) {}
+    } else {
+        throw new Error("Factory: " + name + " does not end with \'Factory\'");
+    }
 };
 
 var registerHandler = function(method, pathName, funChain, options) {
-    try {
-        for (v in funChain) {
-            if (!util.isFunction(funChain[v]))
-                throw new Error("Handler: " + pathName + "\n" + "Method:" + method + "\n There are non-functions in the function array!\n");
-        }
 
-        if (method == 'POST' || method == 'GET')
-            this.content.push({
-                'pathName': method + pathName,
-                'funChain': funChain,
-                'options': options
-            });
-        else
-            throw new Error('Handler method not GET or POST, currently only GET and POST methods are supported. Also remember use capital letter :)\n');
-    } catch (e) {}
+    for (v in funChain) {
+        if (!util.isFunction(funChain[v]))
+            throw new Error("Handler: " + pathName + "\n" + "Method:" + method + "\n There are non-functions in the function array!\n");
+    }
+
+    if (method == 'POST' || method == 'GET')
+        this.content.push({
+            'pathName': method + pathName,
+            'funChain': funChain,
+            'options': options
+        });
+    else
+        throw new Error('Handler method not GET or POST, currently only GET and POST methods are supported. Also remember use capital letter :)\n');
+
 };
 
 

@@ -7,6 +7,7 @@ var util = require('../util/util.js');
 var service = require('../service/service.js');
 var getModule = require('../util/getModule.js');
 var route = require('../route/route.js');
+var http = require('http');
 
 var defaultOptions = {
     PORT: 8080,
@@ -24,7 +25,7 @@ var defaultOptions = {
 var server = function(options) {
     debugger;
     this.options = util.mergeOptions(options, defaultOptions);
-    var modules = getModule.allModules(options),
+    var modules = getModule.allModules(options.MODULES),
         all = getModule.modulesToService(modules);
 
 
@@ -45,7 +46,7 @@ var server = function(options) {
         this.handlerOptions[elm.pathName] = elm.options;
     };
     /////////////////////////////////////////////////////////
-
+    debugger;
     var Router = route.Router(this.options);
 
     this.routeHandler = route.coreRoute(this); // map the url path to the real handlefunction
@@ -59,7 +60,8 @@ var server = function(options) {
 
     this.Run = function() {
         http.createServer(Router).listen(this.options.PORT);
-        console.log('Server has started.\n');
+        console.log('Server has started.');
+        console.log('Runing at localhost:' + this.options.PORT);
     };
 };
 

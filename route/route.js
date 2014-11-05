@@ -4,36 +4,42 @@
  * MIT Licensed
  */
 
-var route = require('router');
+var router = require('router');
 var walk = require('walk'); // for file serving
 var getArg = require('../util/getArg.js');
 var mime = require('mime');
-
+var url = require('url');
+var path = require('path');
+var fs = require('fs');
 
 var myRoute = function(options) {
     var rou = router();
     var simple_server = function(request, response) {
         var pathname = url.parse(request.url).pathname;
-        var realPath = options.PUBLIC + pathname;
-        path.exists(realPath, function(exists) {
+        var realPath = options.PUBLIC + pathname.slice(1);
+        fs.exists(realPath, function(exists) {
             if (!exists) {
                 response.writeHead(404, {
                     'Content-Type': 'text/plain'
                 });
+                console.log(pathname + ' 404 not found');
                 response.write("This request URL " + pathname + " was not found on this server.");
                 response.end();
             } else {
-                var contentType = mime.lookup(realPath);
                 fs.readFile(realPath, "binary", function(err, file) {
                     if (err) {
                         response.writeHead(500, {
-                            'Content-Type': contentType
+                            'Content-Type': 'text/plain'
                         });
-                        response.end(err);
+                        console.log(err);
+                        response.write("This request URL " + pathname + ' cause internal error on this server.');
+                        response.end();
                     } else {
+                        var contentType = mime.lookup(realPath);
                         response.writeHead(200, {
                             'Content-Type': contentType
                         });
+                        console.log('request for ' + pathname);
                         response.write(file, "binary");
                         response.end();
                     }
@@ -52,19 +58,27 @@ var coreRoute = function(system) {
 
     for (v in system.handler)
         routeHandler[v] = getRouteHandler(system.handler[v], system.handlerOptions[v], system.service);
-
     return routeHandler;
 };
 
 var getRouteHandler = function(funChain, options, service) {
+    debugger;
     var f2arg = {};
-    for (f in funChain) {
-        f2arg[f] = getArg.getArguments(f).slice(1);
+    for (i in funChain) {
+        var f = funChain[i],
+            arg = getArg.getArguments(f);
+        if (arg[0] != '$scope')
+            throw new Error("Function \n" + f + "\n don't have $scope as the first argument\n");
+        f2arg[f] = arg.slice(1);
     }
     var $final = service['$final'];
-    if ($final != undefined)
+    if ($final != undefined) {
+        arg = getArg.getArguments($final);
+        if (arg[0] != '$scope')
+            throw new Error("Provider $final don't have $scope as the first argument\n");
         f2arg[$final] = getArg.getArguments($final).slice(1);
-
+    }
+    //////////////////////////////////////////////////////////////////////////////
     return function(request, response) { //use bind
 
         var funQueue = [];
@@ -81,7 +95,7 @@ var getRouteHandler = function(funChain, options, service) {
         var realArgList = [$scope];
 
 
-
+        /////////////////////////////////////////////////////////////////////////////////
         function end() {
             if ($final != undefined) {
                 if (argQueue.stage != $final) {
@@ -94,8 +108,6 @@ var getRouteHandler = function(funChain, options, service) {
                 final();
             }
         }
-
-
 
         function final() {
 
@@ -119,47 +131,47 @@ var getRouteHandler = function(funChain, options, service) {
         }
 
         function fall(sv) { ////     this.callback = function(data, options, funChain)
-            if (sv != undefined) // so you must pass a defined object when use it
-                realArgList.push(sv);
-            if (argQueue.length == 0) {
-                if (argQueue.stage == undefined) { //be the first time
-                    fun2arg();
-                    fall();
-                } else {
-                    if (funQueue.length == 0) { // also could be the end
-                        argQueue.stage.apply(this, realArgList); //call the last function in the chain and do the final procedure
-                        ///////////////////////////FINAL PROCEDURE//////////////////////////
-                        end();
+                if (sv != undefined) // so you must pass a defined object when use it
+                    realArgList.push(sv);
+                if (argQueue.length == 0) {
+                    if (argQueue.stage == undefined) { //be the first time
+                        fun2arg();
+                        fall();
                     } else {
-                        // get another fun from funChain, could terminated by null return. Also push $scope, and if this function has no argument, if not , then call directly
-                        var retureValue = argQueue.stage.apply(this, realArgList);
-                        if (retureValue != false) {
-                            realArgList = [$scope];
-                            fun2arg();
-                            fall();
-                        } else {
-                            ////////////////// end soon
+                        if (funQueue.length == 0) { // also could be the end
+                            argQueue.stage.apply(this, realArgList); //call the last function in the chain and do the final procedure
+                            ///////////////////////////FINAL PROCEDURE//////////////////////////
                             end();
+                        } else {
+                            // get another fun from funChain, could terminated by null return. Also push $scope, and if this function has no argument, if not , then call directly
+                            var retureValue = argQueue.stage.apply(this, realArgList);
+                            if (retureValue != false) {
+                                realArgList = [$scope];
+                                fun2arg();
+                                fall();
+                            } else {
+                                ////////////////// end soon
+                                end();
+                            }
                         }
                     }
-                }
 
-            } else {
-                // callback and get another arg from argQueue, if this arg don't have callback, then it is an utility ,push it into the realArglist
-                var nowArg = dequeue(argQueue),
-                    nowService = service[nowArg];
-
-                if (hasCallback(nowService)) {
-                    nowService.callback($scope, options, fall);
                 } else {
-                    realArgList.push(nowService);
-                    fall();
+                    // callback and get another arg from argQueue, if this arg don't have callback, then it is an utility ,push it into the realArglist
+                    var nowArg = dequeue(argQueue),
+                        nowService = service[nowArg];
+
+                    if (hasCallback(nowService)) {
+                        nowService.callback($scope, options, fall);
+                    } else {
+                        realArgList.push(nowService);
+                        fall();
+                    }
                 }
             }
-        }
-        try {
-            fall(); // 1 2 3!! jump!
-        } catch (e) {}
+            ////////////////////////////////////////////////////////////////////////////
+        fall(); // 1 2 3!! jump!
+
     };
 };
 

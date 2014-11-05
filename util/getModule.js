@@ -11,6 +11,7 @@ var allModules = function(pathArray) {
     var result = [];
     for (var i = 0; i < pathArray.length; i++)
         result.push(require(pathArray[i]));
+    return result;
 };
 
 var modulesToService = function(modules) {
@@ -19,7 +20,7 @@ var modulesToService = function(modules) {
         serviceSet = {};
     serviceSet['service'] = {};
     serviceSet['handler'] = [];
-
+    debugger;
     for (var mn = 0; mn < modules.length; mn++) {
         cM = modules[mn];
         if (cM.hasOwnProperty('myModule')) {

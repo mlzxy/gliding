@@ -10,9 +10,7 @@ options.MODULES = [
     '/modules/handler.js'
 ];
 
-
-
 options.PUBLIC = '/public/';
 
-var myServer = gliding.Server(options);
+var myServer = new gliding.Server(options);
 myServer.Run();

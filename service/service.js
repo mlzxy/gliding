@@ -15,7 +15,7 @@ var builtInService = function(options) {
 };
 
 function merge(service, allService) {
-    for (v in allServices) {
+    for (v in allService) {
         service[v] = allService[v];
     }
     return service;

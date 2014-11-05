@@ -32,11 +32,11 @@ var f4 = function($scope) {
 
 
 
-md.handler.register("GET", [f1, f2, f3], {
+md.handler.register("GET", "/1", [f1, f2, f3], {
     'choose': 'a'
 });
 
-md.handler.register("GET", [f4]);
+md.handler.register("GET", "/2", [f4]);
 
 
 

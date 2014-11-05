@@ -10,10 +10,14 @@ var P = /\(.*\)\ *\{/;
 
 
 var getArguments = function(f) {
+    debugger;
     var source = f.toString();
-    var argStr = source.match(P)[0];
-    var arg = removeALL(argStr, '(', ')', ' ', '{');
-    return arg.split(',').sort();;
+    var argStr = source.match(P);
+    var arg = removeALL(argStr[0], '(', ')', ' ', '{');
+    arg = arg.split(',');
+    for (s in arg)
+        arg[s] = arg[s].trim();
+    return arg;
 };
 
 var remove = function(str, c) {

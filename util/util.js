@@ -9,6 +9,10 @@ function isFunction(functionToCheck) {
     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 
+function isObject(obj) {
+    return typeof obj == 'object';
+}
+
 String.prototype.startsWith = function(str) {
     return this.indexOf(str) == 0;
 };
@@ -29,12 +33,13 @@ function updateOptions(options) {
         options.PUBLIC = options.PUBLIC.concat('/');
     }
     options.PUBLIC = options.PATH + options.PUBLIC;
-    for (var i = 0; i < options.pathArray.length; i++)
-        options.pathArray[i] += options.PATH;
+    for (var i = 0; i < options.MODULES.length; i++)
+        options.MODULES[i] = options.PATH + options.MODULES[i];
     return options;
 }
 
 
 exports.isFunction = isFunction;
+exports.isObject = isObject;
 exports.mergeOptions = mergeOptions;
 exports.updateOptions = updateOptions;
