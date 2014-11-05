@@ -6,7 +6,13 @@ md.provider.register('$happy', function($scope) {
     console.log("Happy!!\n");
 });
 
-// md.provider.register('$final');  actually the $final is a handler function, should not be an object
+/*jshint multistr: true */
+md.provider.register('$final', function($scope, naiveFactory, $happy) {
+    console.log("I am the $final component, if I m not undefind, I would be executed at the end of each handlers chain,\
+                even the chain return false in the middle.");
+    console.log('naiveFactory again, get a number from this mock database: ' + naiveFactory.getNumber());
+    $happy();
+});
 
 
 exports.myModule = md;

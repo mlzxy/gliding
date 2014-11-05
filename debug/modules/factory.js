@@ -23,13 +23,15 @@ var naiveFactory = function() {
             fun(x);
         };
 
-        switch (options.choose) {
-            case 'a':
-                setTimeout(next, data.timeoutLength);
-                break;
-            default:
-                mySetTimeout(next, data.timeoutLength);
-        }
+        if (options !== undefined)
+            switch (options.choose) {
+                case 'a':
+                    setTimeout(next, data.timeoutLength);
+                    break;
+                default:
+                    mySetTimeout(next, data.timeoutLength);
+            } else
+            setTimeout(next, data.timeoutLength);
     };
 };
 

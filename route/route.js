@@ -23,7 +23,7 @@ function headPrint(res) {
         noColor: true
     };
     console.log(clc.yellow.inverse.bgWhite("HTTP HEADER:"));
-    for (v in res.headers) {
+    for (var v in res.headers) {
         console.log(clc.blue.inverse.bgWhite(v + ': ') + res.headers[v]);
     }
 }
@@ -70,38 +70,37 @@ var myRoute = function(options) {
 };
 
 var coreRoute = function(system) {
-    var routeHandler = {}; // all functions in the routeHandler must accept request and response
-
-    for (v in system.handler)
+    var routeHandler = {};
+    for (var v in system.handler)
         routeHandler[v] = getRouteHandler(system.handler[v], system.handlerOptions[v], system.service);
     return routeHandler;
 };
 
+
 var getRouteHandler = function(funChain, options, service) {
     var f2arg = {};
-    for (i in funChain) {
-        var f = funChain[i],
-            arg = getArg.getArguments(f);
+    var arg;
+    for (var i in funChain) {
+        var f = funChain[i];
+        arg = getArg.getArguments(f);
         if (arg[0] != '$scope')
             throw new Error("Function \n" + f + "\n don't have $scope as the first argument\n");
         f2arg[f] = arg.slice(1);
     }
     var $final = service['$final'];
-    if ($final != undefined) {
+    if ($final !== undefined) {
         arg = getArg.getArguments($final);
         if (arg[0] != '$scope')
             throw new Error("Provider $final don't have $scope as the first argument\n");
         f2arg[$final] = getArg.getArguments($final).slice(1);
     }
-    //////////////////////////////////////////////////////////////////////////////
-    return function(request, response) { //use bind
-        debugger;
+
+    return function(request, response) {
         var funQueue = [];
         copyArray(funQueue, funChain);
         var argQueue = [];
         argQueue.stage = undefined;
 
-        ////////////////////////////now the two queue are ready
         var $scope = {};
         $scope.HTTP = {};
         $scope.HTTP.Request = request;
@@ -111,15 +110,15 @@ var getRouteHandler = function(funChain, options, service) {
         $scope.HTTP.HEAD = 'text/html';
         var realArgList = [$scope];
 
-
-        /////////////////////////////////////////////////////////////////////////////////
         function end() {
-            if ($final != undefined) {
+            if ($final !== undefined) {
                 if (argQueue.stage != $final) {
                     realArgList = [$scope];
                     funQueue.push($final);
                     fun2arg();
                     fall();
+                } else {
+                    final();
                 }
             } else {
                 final();
@@ -129,11 +128,13 @@ var getRouteHandler = function(funChain, options, service) {
         function final() {
 
             response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
-            if ($scope.HTML != undefined) {
+            if ($scope.HTML !== undefined) {
                 response.write(service['$template'].render($scope.HTML, $scope.JSON));
                 response.end();
-            } else if ($scope.TMPL != undefined) {
-                response.write(service['$render'].render($scope.TMPL, $scope.JSON));
+            } else if ($scope.TMPL !== undefined) {
+                response.write(service['$render'].render($scope.TMPL, {
+                    locals: $scope.JSON
+                }));
                 response.end();
             } else {
                 response.write($scope.JSON);
@@ -147,48 +148,43 @@ var getRouteHandler = function(funChain, options, service) {
             argQueue.stage = f;
         }
 
-        function fall(sv) { ////     this.callback = function(data, options, funChain)
-                if (sv != undefined) // so you must pass a defined object when use it
-                    realArgList.push(sv);
-                if (argQueue.length == 0) {
-                    if (argQueue.stage == undefined) { //be the first time
-                        fun2arg();
-                        fall();
+        function fall(sv) {
+            if (sv !== undefined)
+                realArgList.push(sv);
+            if (argQueue.length === 0) {
+                if (argQueue.stage === undefined) {
+                    fun2arg();
+                    fall();
+                } else {
+                    if (funQueue.length === 0) {
+                        argQueue.stage.apply(this, realArgList);
+                        end();
                     } else {
-                        if (funQueue.length == 0) { // also could be the end
-                            argQueue.stage.apply(this, realArgList); //call the last function in the chain and do the final procedure
-                            ///////////////////////////FINAL PROCEDURE//////////////////////////
-                            end();
+                        var retureValue = argQueue.stage.apply(this, realArgList);
+                        if (retureValue !== false) {
+                            realArgList = [$scope];
+                            fun2arg();
+                            fall();
                         } else {
-                            // get another fun from funChain, could terminated by null return. Also push $scope, and if this function has no argument, if not , then call directly
-                            var retureValue = argQueue.stage.apply(this, realArgList);
-                            if (retureValue != false) {
-                                realArgList = [$scope];
-                                fun2arg();
-                                fall();
-                            } else {
-                                ////////////////// end soon
-                                end();
-                            }
+                            funQueue = [];
+                            end();
                         }
                     }
+                }
 
+            } else {
+                var nowArg = dequeue(argQueue),
+                    nowService = service[nowArg];
+
+                if (hasCallback(nowService)) {
+                    nowService.callback($scope, options, fall);
                 } else {
-                    // callback and get another arg from argQueue, if this arg don't have callback, then it is an utility ,push it into the realArglist
-                    var nowArg = dequeue(argQueue),
-                        nowService = service[nowArg];
-
-                    if (hasCallback(nowService)) {
-                        nowService.callback($scope, options, fall);
-                    } else {
-                        realArgList.push(nowService);
-                        fall();
-                    }
+                    realArgList.push(nowService);
+                    fall();
                 }
             }
-            ////////////////////////////////////////////////////////////////////////////
-        fall(); // 1 2 3!! jump!
-
+        }
+        fall();
     };
 };
 

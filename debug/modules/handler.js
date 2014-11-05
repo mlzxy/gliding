@@ -3,16 +3,21 @@ var gliding = require('../../index.js');
 var md = new gliding.Module();
 
 
+var f0 = function($scope) {
+    $scope.timeoutLength = 100;
+};
+
+
 var f1 = function($scope, naiveFactory) {
-    console.log('In the naiveFactory: \n');
+    $scope.HTML = 'In the naiveFactory: \n';
     $scope.x = naiveFactory.getNumber();
-    console.log('naiveFactory.getNumber()!');
+    $scope.HTML += 'naiveFactory.getNumber()!';
 };
 
 var f2 = function($scope, $happy) {
+    $scope.HTML += $scope.x;
     $happy();
-    console.log($scope.x);
-    $scope.HTML = "It Works!!";
+    $scope.HTML += "\nIt Works!!\n";
     return false;
 };
 
@@ -31,13 +36,20 @@ var f4 = function($scope) {
 
 
 
+var f5 = function($scope) {
+    $scope.HTML = JSON.stringify($scope.PARAMS);
+    return false;
+};
 
-md.handler.register("GET", "/1", [f1, f2, f3], {
+
+
+
+md.handler.register("GET", "/1", [f0, f1, f2, f3], {
     'choose': 'a'
-});
+}); //ok
 
-md.handler.register("GET", "/2", [f4]);
-
+md.handler.register("GET", "/2", [f4]); //ok
+md.handler.register("GET", "/{base}/{foo}", [f5, f2]); //ok
 
 
 
