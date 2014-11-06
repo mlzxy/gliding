@@ -61,6 +61,13 @@ var allModules = function(options) {
     var result = [],
         reglist = options.MODULES,
         PATH = options.PATH;
+    for (var v in reglist) {
+        var t = reglist[v];
+        if (util.isString(t) && t.endsWith('|m')) {
+            result.push(require(t.slice(0, t.length - 2)));
+            options.MODULES = reglist.removeIndexAt(v);
+        }
+    }
     var pathArray = allPath(PATH, options);
     for (var i = 0; i < pathArray.length; i++)
         result.push(require(pathArray[i]));

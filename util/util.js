@@ -20,7 +20,9 @@ String.prototype.endsWithArray = function(arr) {
     return false;
 };
 
-
+Array.prototype.removeIndexAt = function(idx) {
+    return this.slice(0, idx).concat(this.slice(idx + 1));
+};
 
 
 //////////////////////////////////////////////////////////////////

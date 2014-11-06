@@ -10,9 +10,10 @@ var options = {};
 
 options.PATH = __dirname;
 options.MODULES = [
-    /modules\/provider.+/,
+    /modules\/provider.+/, //use regex
     'modules/factory.js',
-    'modules/handler.js'
+    'modules/handler.js',
+    //    'xee|m'
 ];
 
 options.PUBLIC = '/public/';
