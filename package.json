@@ -11,6 +11,10 @@
         "web",
         "route"
     ],
+      "repository": {
+    "type": "git",
+    "url": "git://github.com/BenBBear/gliding.git"
+  },
     "author": "Xinyu Zhang",
     "license": "MIT",
     "dependencies": {

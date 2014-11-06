@@ -132,9 +132,9 @@ var getRouteHandler = function(funChain, options, service) {
                 response.write(service['$template'].render($scope.HTML, $scope.JSON));
                 response.end();
             } else if ($scope.TMPL !== undefined) {
-                response.write(service['$render'].render($scope.TMPL, {
-                    locals: $scope.JSON
-                }));
+                response.write(service['$render'].render($scope.TMPL,
+                    $scope.JSON
+                ));
                 response.end();
             } else {
                 response.write($scope.JSON);

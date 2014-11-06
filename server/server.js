@@ -15,7 +15,6 @@ var defaultOptions = {
     MODULES: [],
     PUBLIC: "./public",
     TMPL_EXTENSION: ".tmpl",
-    TMPL_ENCODE: "utf8",
     TEMPLATE_ENGINE: undefined,
     STATIC_SERVER: undefined
 };

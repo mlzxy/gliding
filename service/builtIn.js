@@ -25,8 +25,8 @@ var renderer = function(options) {
             file: function(root, stat, next) {
                 if (stat.name.endsWith(options.TMPL_EXTENSION)) {
                     var filename = root + stat.name,
-                        data = fs.readFileSync(filename, options.TMPL_ENCODE);
-                    templateHash[filename.slice(len)] = data;
+                        tpl = template.compileFile(filename);
+                    templateHash[filename.slice(len)] = tpl;
                 }
                 next();
             }
@@ -39,7 +39,7 @@ var renderer = function(options) {
 
     return new function() {
         this.render = function(name, json) {
-            return myTemplate.render(templateHash[name], json);
+            return templateHash[name](json);
         };
     }();
 };
