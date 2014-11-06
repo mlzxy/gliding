@@ -22,8 +22,9 @@ var defaultOptions = {
 
 
 var server = function(options) {
+    debugger;
     this.options = util.mergeOptions(options, defaultOptions);
-    var modules = getModule.allModules(options.MODULES),
+    var modules = getModule.allModules(options),
         all = getModule.modulesToService(modules);
 
 

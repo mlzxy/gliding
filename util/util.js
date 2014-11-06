@@ -41,13 +41,29 @@ function isObject(obj) {
     return typeof obj == 'object';
 }
 
+function isString(obj) {
+    return typeof obj == 'string';
+}
+
+function isRegex(obj) {
+    return obj instanceof RegExp;
+}
+
+var isHidden = function(path) {
+    return (/(^|.\/)\.+[^\/\.]/g).test(path) || (/~$/).test(path);
+};
+
 function updateOptions(options) {
     if (!options.PUBLIC.endsWith('/')) {
         options.PUBLIC = options.PUBLIC.concat('/');
     }
+    if (!options.PATH.endsWith('/')) {
+        options.PATH = options.PATH.concat('/');
+    }
+    if (options.PUBLIC.startsWith('/')) {
+        options.PUBLIC = options.PUBLIC.slice(1);
+    }
     options.PUBLIC = options.PATH + options.PUBLIC;
-    for (var i = 0; i < options.MODULES.length; i++)
-        options.MODULES[i] = options.PATH + options.MODULES[i];
     return options;
 }
 
@@ -56,3 +72,6 @@ exports.isFunction = isFunction;
 exports.isObject = isObject;
 exports.mergeOptions = mergeOptions;
 exports.updateOptions = updateOptions;
+exports.isString = isString;
+exports.isRegex = isRegex;
+exports.isHidden = isHidden;

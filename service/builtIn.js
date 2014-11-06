@@ -41,17 +41,18 @@ var renderer = function(options) {
 
 
 
-    return new function() {
-        this.render = function(name, json) {
+    return {
+        render: function(name, json) {
             try {
                 return templateHash[name](json);
             } catch (e) {
                 console.log(templateHash);
+                console.log(options);
                 throw new Error(error(e.message + "\n" + "maybe because the file extension of your" +
                     " template files are not specified in the options. The default options.TMPL_EXTENSION = [.tmpl, .html]"));
             }
-        };
-    }();
+        }
+    };
 };
 
 exports.renderer = renderer;
