@@ -44,12 +44,21 @@ var myRoute = function(options) {
             } else {
                 fs.readFile(realPath, "binary", function(err, file) {
                     if (err) {
-                        response.writeHead(500, {
-                            'Content-Type': 'text/plain'
-                        });
-                        console.log(error("INTERNAL ERROR:\n" + err));
-                        response.write("This request URL " + pathname + ' cause internal error on this server.');
-                        response.end();
+                        if (err.errno === 28) {
+                            response.writeHead(404, {
+                                'Content-Type': 'text/plain'
+                            });
+                            console.log(notice('request for ' + pathname + ' but 404 not found'));
+                            response.write("This request URL " + pathname + " was not found on this server.");
+                            response.end();
+                        } else {
+                            console.log(error("INTERNAL ERROR:\n" + err));
+                            response.writeHead(500, {
+                                'Content-Type': 'text/plain'
+                            });
+                            response.write("This request URL " + pathname + ' cause internal error on this server.');
+                            response.end();
+                        }
                     } else {
                         var contentType = mime.lookup(realPath);
                         response.writeHead(200, {

@@ -9,11 +9,6 @@ var gliding = require('../../index.js');
 var md = new gliding.Module();
 
 var naiveFactory = function() {
-
-    function double(x) {
-        return 2 * x;
-    };
-
     function mySetTimeout(x, y) {
         setTimeout(x, y);
     }

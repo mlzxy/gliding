@@ -50,7 +50,6 @@ var f5 = function($scope) {
 var f6 = function($scope, $form) {
     $scope.HTML = JSON.stringify($form);
 };
-
 var f7 = function($scope) {
     $scope.HTML = '<html> <title>test form</title> <body>' +
         '<form action="/upload" enctype="multipart/form-data" method="post">' +
@@ -69,7 +68,7 @@ md.handler.register("GET", "/1", [f0, f1, f2, f3], {
 
 md.handler.register("GET", "/2", [f4]); //ok
 md.handler.register("GET", "/{base}/{foo}", [f5, f2]); //ok
-md.handler.register("GET", "/form", [f7]);
+md.handler.register("GET", "/form", [f7]); //ok
 md.handler.register("POST", "/upload", [f6]); //ok
 
 

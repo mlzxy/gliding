@@ -6,10 +6,7 @@
 var gliding = require('../../index.js');
 var formidable = require('formidable');
 var md = new gliding.Module();
-
-
 var form = new formidable.IncomingForm();
-
 var f = {
     callback: function(data, options, fun) { //must have interface
         form.parse(data.HTTP.Request, function(err, fields, files) {
@@ -20,10 +17,5 @@ var f = {
         });
     }
 };
-
 md.provider.register('$form', f);
-
-
-
-
 exports.myModule = md;

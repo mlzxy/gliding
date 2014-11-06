@@ -15,8 +15,9 @@ options.MODULES = [
     'modules/handler.js',
     //    'xee|m'
 ];
-
 options.PUBLIC = '/public/';
+
+
 
 var myServer = new gliding.Server(options);
 myServer.Run();
