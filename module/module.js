@@ -42,14 +42,14 @@ var registerFactory = function(name, content) {
 
 var registerHandler = function(method, pathName, funChain, options) {
 
-    for (v in funChain) {
+    for (var v = 0; v < funChain.length; v++) {
         if (!util.isFunction(funChain[v]))
             throw new Error("Handler: " + pathName + "\n" + "Method:" + method + "\n There are non-functions in the function array!\n");
     }
 
     if (method == 'POST' || method == 'GET')
         this.content.push({
-            'pathName': method + pathName,
+            'pathName': method.toUpperCase().slice(0, 3) + pathName,
             'funChain': funChain,
             'options': options
         });

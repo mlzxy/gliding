@@ -47,12 +47,32 @@ var server = function(options) {
     /////////////////////////////////////////////////////////
     var Router = route.Router(this.options);
 
-    this.routeHandler = route.coreRoute(this); // map the url path to the real handlefunction
-    for (v in this.handler) {
-        if (v.startsWith('POST')) {
-            Router.post(v.slice(4), this.routeHandler[v]);
-        } else {
-            Router.get(v.slice(3), this.routeHandler[v]);
+    this.routeHandler = route.coreRoute(this);
+    for (var v in this.handler) {
+        var p = v.slice(3);
+        switch (v.slice(0, 3)) {
+            case "POS": //post
+                Router.post(p, this.routeHandler[v]);
+                break;
+            case "GET":
+                Router.get(p, this.routeHandler[v]);
+                break;
+            case "PUT":
+                Router.put(p, this.routeHandler[v]);
+                break;
+            case "HEA": //head
+                Router.head(p, this.routeHandler[v]);
+                break;
+            case "DEL":
+                Router.del(p, this.routeHandler[v]);
+                break;
+            case "OPT": //options
+                Router.options(p, this.routeHandler[v]);
+                break;
+            case "ALL":
+                Router.all(p, this.routeHandler[v]);
+                break;
+            default:
         }
     }
 

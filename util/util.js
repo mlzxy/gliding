@@ -14,7 +14,7 @@ String.prototype.endsWith = function(suffix) {
 };
 
 String.prototype.endsWithArray = function(arr) {
-    for (var v in arr)
+    for (var v = 0; v < arr.length; v++)
         if (this.endsWith(arr[v]))
             return true;
     return false;

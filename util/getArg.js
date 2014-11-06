@@ -14,7 +14,7 @@ var getArguments = function(f) {
     var argStr = source.match(P);
     var arg = removeALL(argStr[0], '(', ')', ' ', '{');
     arg = arg.split(',');
-    for (s in arg)
+    for (var s = 0; s < arg.length; s++)
         arg[s] = arg[s].trim();
     return arg;
 };

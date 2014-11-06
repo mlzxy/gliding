@@ -58,18 +58,55 @@
 28 silly publish      walk: '^2.3.4' },
 28 silly publish   readme: '<!-- gliding -->\n<!-- Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn -->\n<!-- MIT Licensed -->\n \n',
 28 silly publish   readmeFilename: 'README.md',
-28 silly publish   gitHead: '1ee02db3c8c69bd1e9b8b181462e561442e714e7',
+28 silly publish   gitHead: 'd584cad572dfd88565f835e43849e8c0fba1b2ff',
 28 silly publish   bugs: { url: 'https://github.com/BenBBear/gliding/issues' },
 28 silly publish   homepage: 'https://github.com/BenBBear/gliding',
 28 silly publish   _id: 'gliding@0.1.3',
-28 silly publish   _shasum: '1649b2d5d5e2acc8f709a2c386f769d2261e255c',
+28 silly publish   _shasum: 'b2ac81ae89aec69399b409fd0fd9a4556da9f42c',
 28 silly publish   _from: '.' }
-29 error need auth auth and email required for publishing
-29 error need auth You need to authorize this machine using `npm adduser`
-30 error System Linux 3.13.0-39-generic
-31 error command "/home/beviszhang/.nvm/v0.10.32/bin/node" "/home/beviszhang/.nvm/v0.10.32/bin/npm" "publish"
-32 error cwd /home/beviszhang/WORKSPACE/gliding
-33 error node -v v0.10.32
-34 error npm -v 1.4.28
-35 error code ENEEDAUTH
-36 verbose exit [ 1, true ]
+29 verbose request where is /gliding
+30 verbose request registry https://registry.npmjs.org/
+31 verbose request id 8097782b7f8244cb
+32 verbose url raw /gliding
+33 verbose url resolving [ 'https://registry.npmjs.org/', './gliding' ]
+34 verbose url resolved https://registry.npmjs.org/gliding
+35 verbose request where is https://registry.npmjs.org/gliding
+36 info trying registry request attempt 1 at 16:42:02
+37 http PUT https://registry.npmjs.org/gliding
+38 http 403 https://registry.npmjs.org/gliding
+39 verbose headers { date: 'Thu, 06 Nov 2014 08:42:03 GMT',
+39 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+39 verbose headers   'content-type': 'application/json',
+39 verbose headers   'cache-control': 'max-age=60',
+39 verbose headers   'content-length': '2675',
+39 verbose headers   'accept-ranges': 'bytes',
+39 verbose headers   via: '1.1 varnish',
+39 verbose headers   'x-served-by': 'cache-lax1431-LAX',
+39 verbose headers   'x-cache': 'MISS',
+39 verbose headers   'x-cache-hits': '0',
+39 verbose headers   'x-timer': 'S1415263323.582955,VS0,VE177',
+39 verbose headers   'keep-alive': 'timeout=10, max=50',
+39 verbose headers   connection: 'Keep-Alive' }
+40 error publish Failed PUT 403
+41 error Error: forbidden cannot modify pre-existing version: 0.1.3
+41 error old={"name":"gliding","version":"0.1.3","description":"a super minimal web framework based on nodejs, try to save you from the callback hell","main":"index.js","scripts":{"test":"echo \"Error: no test specified\" && exit 1"},"keywords":["framework","web","route"],"repository":{"type":"git","url":"git://github.com/BenBBear/gliding.git"},"author":{"name":"Xinyu Zhang"},"license":"MIT","dependencies":{"cli-color":"^0.3.2","formidable":"^1.0.15","mime":"^1.2.11","prettyjson":"^1.0.0","router":"^0.6.2","swig":"^1.4.2","walk":"^2.3.4"},"gitHead":"1ee02db3c8c69bd1e9b8b181462e561442e714e7","bugs":{"url":"https://github.com/BenBBear/gliding/issues"},"homepage":"https://github.com/BenBBear/gliding","_id":"gliding@0.1.3","_shasum":"498d3415ca964a35cdee1f70a2084cc3f811baeb","_from":".","_npmVersion":"1.4.28","_npmUser":{"name":"xyzhang","email":"bevis@mail.ustc.edu.cn"},"maintainers":[{"name":"xyzhang","email":"bevis@mail.ustc.edu.cn"}],"dist":{"shasum":"498d3415ca964a35cdee1f70a2084cc3f811baeb","tarball":"http://registry.npmjs.org/gliding/-/gliding-0.1.3.tgz"}}
+41 error new={"name":"gliding","version":"0.1.3","description":"a super minimal web framework based on nodejs, try to save you from the callback hell","main":"index.js","scripts":{"test":"echo \"Error: no test specified\" && exit 1"},"keywords":["framework","web","route"],"repository":{"type":"git","url":"git://github.com/BenBBear/gliding.git"},"author":{"name":"Xinyu Zhang"},"license":"MIT","dependencies":{"cli-color":"^0.3.2","formidable":"^1.0.15","mime":"^1.2.11","prettyjson":"^1.0.0","router":"^0.6.2","swig":"^1.4.2","walk":"^2.3.4"},"readme":"<!-- gliding -->\u000a<!-- Copyright(c) 2014 Xinyu Zhang bevis@mail.ustc.edu.cn -->\u000a<!-- MIT Licensed -->\u000a \u000a","readmeFilename":"README.md","gitHead":"d584cad572dfd88565f835e43849e8c0fba1b2ff","bugs":{"url":"https://github.com/BenBBear/gliding/issues"},"homepage":"https://github.com/BenBBear/gliding","_id":"gliding@0.1.3","_shasum":"b2ac81ae89aec69399b409fd0fd9a4556da9f42c","_from":".","_npmVersion":"1.4.28","_npmUser":{"name":"xyzhang","email":"bevis@mail.ustc.edu.cn"},"maintainers":[{"name":"xyzhang","email":"bevis@mail.ustc.edu.cn"}],"dist":{"shasum":"b2ac81ae89aec69399b409fd0fd9a4556da9f42c","tarball":"http://registry.npmjs.org/gliding/-/gliding-0.1.3.tgz"}}: gliding
+41 error     at RegClient.<anonymous> (/home/beviszhang/.nvm/v0.10.32/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:308:14)
+41 error     at Request._callback (/home/beviszhang/.nvm/v0.10.32/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:246:65)
+41 error     at Request.self.callback (/home/beviszhang/.nvm/v0.10.32/lib/node_modules/npm/node_modules/request/request.js:236:22)
+41 error     at Request.emit (events.js:98:17)
+41 error     at Request.<anonymous> (/home/beviszhang/.nvm/v0.10.32/lib/node_modules/npm/node_modules/request/request.js:1142:14)
+41 error     at Request.emit (events.js:117:20)
+41 error     at IncomingMessage.<anonymous> (/home/beviszhang/.nvm/v0.10.32/lib/node_modules/npm/node_modules/request/request.js:1096:12)
+41 error     at IncomingMessage.emit (events.js:117:20)
+41 error     at _stream_readable.js:943:16
+41 error     at process._tickCallback (node.js:419:13)
+42 error If you need help, you may report this *entire* log,
+42 error including the npm and node versions, at:
+42 error     <http://github.com/npm/npm/issues>
+43 error System Linux 3.13.0-39-generic
+44 error command "/home/beviszhang/.nvm/v0.10.32/bin/node" "/home/beviszhang/.nvm/v0.10.32/bin/npm" "publish"
+45 error cwd /home/beviszhang/WORKSPACE/gliding
+46 error node -v v0.10.32
+47 error npm -v 1.4.28
+48 verbose exit [ 1, true ]

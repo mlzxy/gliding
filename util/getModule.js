@@ -8,7 +8,7 @@ var util = require('./util.js');
 var shouldInclude = function(path, options) { //whether this module should be included
     var r;
     var PUBLIC = options.PUBLIC;
-    for (var idx in options.MODULES) {
+    for (var idx = 0; idx < options.MODULES.length; idx++) {
         r = options.MODULES[idx];
         if (util.isString(r)) { //path and r are all relative
             if (r == path) {
@@ -27,7 +27,7 @@ var shouldInclude = function(path, options) { //whether this module should be in
 
 var filter = function(pathArray, options) {
     var result = [];
-    for (var idx in pathArray) {
+    for (var idx = 0; idx < pathArray.length; idx++) {
         if (shouldInclude(pathArray[idx], options))
             result.push(options.PATH + pathArray[idx]);
     }
@@ -61,7 +61,7 @@ var allModules = function(options) {
     var result = [],
         reglist = options.MODULES,
         PATH = options.PATH;
-    for (var v in reglist) {
+    for (var v = 0; v < reglist.length; v++) {
         var t = reglist[v];
         if (util.isString(t) && t.endsWith('|m')) {
             result.push(require(t.slice(0, t.length - 2)));

@@ -80,7 +80,7 @@ var coreRoute = function(system) {
 var getRouteHandler = function(funChain, options, service) {
     var f2arg = {};
     var arg;
-    for (var i in funChain) {
+    for (var i = 0; i < funChain.length; i++) {
         var f = funChain[i];
         arg = getArg.getArguments(f);
         if (arg[0] != '$scope')
@@ -206,7 +206,7 @@ function hasCallback(a) {
 }
 
 function copyArray(a, o) {
-    for (var v in o) a[v] = o[v];
+    for (var v = 0; v < o.length; v++) a[v] = o[v];
 }
 
 
