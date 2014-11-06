@@ -4,21 +4,26 @@
  * MIT Licensed
  */
 
-function isFunction(functionToCheck) {
-    var getType = {};
-    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-}
 
-function isObject(obj) {
-    return typeof obj == 'object';
-}
 
 String.prototype.startsWith = function(str) {
-    return this.indexOf(str) == 0;
+    return this.indexOf(str) === 0;
 };
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
+
+String.prototype.endsWithArray = function(arr) {
+    for (var v in arr)
+        if (this.endsWith(arr[v]))
+            return true;
+    return false;
+};
+
+
+
+
+//////////////////////////////////////////////////////////////////
 
 function mergeOptions(a, b) {
     for (var v in b) {
@@ -27,6 +32,14 @@ function mergeOptions(a, b) {
     return updateOptions(a);
 }
 
+function isFunction(functionToCheck) {
+    var getType = {};
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+function isObject(obj) {
+    return typeof obj == 'object';
+}
 
 function updateOptions(options) {
     if (!options.PUBLIC.endsWith('/')) {

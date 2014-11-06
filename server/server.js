@@ -14,7 +14,7 @@ var defaultOptions = {
     PATH: undefined,
     MODULES: [],
     PUBLIC: "./public",
-    TMPL_EXTENSION: ".tmpl",
+    TMPL_EXTENSION: [".tmpl", ".html"],
     TEMPLATE_ENGINE: undefined,
     STATIC_SERVER: undefined
 };

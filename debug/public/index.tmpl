@@ -1,1 +1,4 @@
-my name is {{ name }}
+{% extends './main.tmpl' %}
+ {% block NAME %}
+   my name is {{ name }}
+  {% endblock %}

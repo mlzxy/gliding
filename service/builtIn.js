@@ -6,6 +6,10 @@
 var walk = require('walk');
 var template = require('swig');
 var fs = require('fs');
+var clc = require('cli-color');
+var error = clc.red.bold;
+
+
 var simple_ErrorHandle = function() {
     this.printError = function(e) {
         console.log(e);
@@ -23,7 +27,7 @@ var renderer = function(options) {
     var walk_options = {
         listeners: {
             file: function(root, stat, next) {
-                if (stat.name.endsWith(options.TMPL_EXTENSION)) {
+                if (stat.name.endsWithArray(options.TMPL_EXTENSION)) {
                     var filename = root + stat.name,
                         tpl = template.compileFile(filename);
                     templateHash[filename.slice(len)] = tpl;
@@ -39,7 +43,13 @@ var renderer = function(options) {
 
     return new function() {
         this.render = function(name, json) {
-            return templateHash[name](json);
+            try {
+                return templateHash[name](json);
+            } catch (e) {
+                console.log(templateHash);
+                throw new Error(error(e.message + "\n" + "maybe because the file extension of your" +
+                    " template files are not specified in the options. The default options.TMPL_EXTENSION = [.tmpl, .html]"));
+            }
         };
     }();
 };

@@ -1,6 +1,6 @@
 {
     "name": "gliding",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "a super minimal web framework based on nodejs, try to save you from the callback hell",
     "main": "index.js",
     "scripts": {
@@ -11,10 +11,10 @@
         "web",
         "route"
     ],
-      "repository": {
-    "type": "git",
-    "url": "git://github.com/BenBBear/gliding.git"
-  },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/BenBBear/gliding.git"
+    },
     "author": "Xinyu Zhang",
     "license": "MIT",
     "dependencies": {
