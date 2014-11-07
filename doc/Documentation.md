@@ -1,13 +1,15 @@
 # Documentation
-
-## Options 
+<br>
+<br>
+<br>
+# Options 
 `var server = new gliding.Server(options)` <- here
 
 The options have these following attributes that could be configured.
 
 ### STATIC_SERVER
 
-__Gliding__ has its own static file server, but it's very simple, just for development and debug, in the [__route.js__](). But you could easily change the file server implementation, just change `options.STATIC_SERVER` to what you like it to be(should be a `function(req,res){stuff;}`). Or make gliding works behind nginx, also good choice.
+__Gliding__ has its own static file server, but it's very simple, just for development and debug, in the [__route.js__](https://github.com/BenBBear/gliding/blob/master/route/route.js). But you could easily change the file server implementation, just change `options.STATIC_SERVER` to what you like it to be(should be a `function(req,res){stuff;}`). Or make gliding works behind nginx, also good choice.
 
 
 ### TEMPLATE_ENGINE
@@ -45,8 +47,10 @@ options.MODULES = [
 - __TMP\_EXTENSION__: the files that being saw as templates, default is `['.tmpl','.html']`
 
 
-
-## Module()
+<br>
+<br>
+<br>
+# Module()
 `var md = new gliding.Module();` <- here
 
 The file that use `Module()` should be included by gliding accroding to `options.MODULES`. After we get a new Module, we could use 
@@ -56,8 +60,10 @@ md.provider.register()
 md.hander.register()
 ```
 After inject our components, we must export it with the name `myModule`, as `exports.myModule = md;`
-
-## provider & factory
+<br>
+<br>
+<br>
+# provider & factory
 `md.provider.register('$form', f);` <- here
 `md.factory.register('dbfactory',obj)` <- here
 
@@ -98,7 +104,9 @@ default:  nothing(data.user,f);
 }
 ```
 
-
+<br>
+<br>
+<br>
 ## Default Services
 
 ### $scope
@@ -143,10 +151,21 @@ Direct access with the template engine, default is __swig__
 
 The [$render](#$render) and [$template](#$template)  not be used in the handlers usually, the gliding will automatically render data and write stream, you only need to set $scope.
 
-## handler
-`md.handler.register("GET", "/form", [f7,]);` <- here
-
-
+# handler
+`md.handler.register("GET", "/form", [f7,], options);` <- here
+- The first arguments are method, support: put,get,post,head,options,delete and also all to match all. (just as the [router](https://github.com/gett/router) did.)
+- the second argument is path
+- the third argument is a array of function, they are executed in order and share data on $scope like
+```
+function f1($scope, $service){
+  $scope.x = 1;
+}
+function f2($scope, $service){
+  console.log($scope.x);
+}
+```
+- __IMPORTANT:__ all handler function must have one argument, and the first argument must be $scope!
+- the fourth argument is optional, the options would pass to all the services' callback, so in this way control the behavior of the service.
 
 ## Dependency 
 
@@ -159,8 +178,10 @@ __Gliding__ use packages:
 - "swig": for templating
 - "walk": for easy read file.
 
-
-## Limitation
+<br>
+<br>
+<br>
+# Limitation
 
 Since there are too many, I only list these here, __TO BE CONTINUE__
 
@@ -170,8 +191,10 @@ Since there are too many, I only list these here, __TO BE CONTINUE__
 
 - static file server too simple, access disk every time.
 
-
-## Example
+<br>
+<br>
+<br>
+# Example
 
 See [__Example__](https://github.com/BenBBear/gliding/blob/master/doc/example.md)
 

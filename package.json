@@ -1,7 +1,8 @@
 {
     "name": "gliding",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "description": "a super minimal web framework based on nodejs, try to save you from the callback hell",
+    "homepage": "https://github.com/BenBBear/gliding",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

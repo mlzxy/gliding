@@ -34,7 +34,7 @@ Once you have node and npm installed properly, just use
 ```shell
 npm install gliding
 ```
-to install.
+to install. __current version: 0.2.5__
 
 ## General Process
 - register components as provider or factory
@@ -79,7 +79,7 @@ run `node index.js` in the shell, then it's running in the `localhost:8080`.
 How to use in details, please see [__Documentation__](https://github.com/BenBBear/gliding/blob/master/doc/Documentation.md).
 
 
-Example could be found in [__Example](https://github.com/BenBBear/gliding/blob/master/doc/example.md)
+Example could be found in [__Example__](https://github.com/BenBBear/gliding/blob/master/doc/example.md)
 
 <br>
 <br>
@@ -191,4 +191,4 @@ No, I think, it haven't been tested a lot yet, also it lacks a lot of other feat
 
 ### development
 
-I am trying to apply to graduate school these days, and I have serveral projects and courses at the same time, so I'm very very busy. So [__gliding__](https://github.com/BenBBear/gliding) wou't be developed so actively like I did the recent three days. But I would still work on it, and will have more time on it when my other burning priorities pass.
+I am trying to apply to graduate school these days, and I have serveral projects and courses at the same time, so I'm very very busy. So [__gliding__](https://github.com/BenBBear/gliding) wou't be developed so actively like I did at the beginning three days. But I would still work on it, and will have more time on it when my other burning priorities pass.
