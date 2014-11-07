@@ -21,7 +21,6 @@
         "cli-color": "^0.3.2",
         "formidable": "^1.0.15",
         "mime": "^1.2.11",
-        "prettyjson": "^1.0.0",
         "router": "^0.6.2",
         "swig": "^1.4.2",
         "walk": "^2.3.4"

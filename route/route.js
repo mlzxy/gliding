@@ -16,7 +16,6 @@ var clc = require('cli-color');
 var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue.bgWhite;
-var prettyjson = require('prettyjson');
 
 function headPrint(res) {
     var options = {

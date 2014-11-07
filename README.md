@@ -76,7 +76,10 @@ run `node index.js` in the shell, then it's running in the `localhost:8080`.
 
 # Documentation
 
-See [__Documentation__](https://github.com/BenBBear/gliding/blob/master/doc/Documentation.md)
+How to use in details, please see [__Documentation__](https://github.com/BenBBear/gliding/blob/master/doc/Documentation.md).
+
+
+Example could be found in [__Example](https://github.com/BenBBear/gliding/blob/master/doc/example.md)
 
 <br>
 <br>
@@ -178,6 +181,9 @@ if (isEmpty(funQueue))
     end();
 ```
 
+<br>
+<br>
+<br>
 #  Current State
 
 ### ready to use?
