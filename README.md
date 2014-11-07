@@ -34,7 +34,7 @@ Once you have node and npm installed properly, just use
 ```shell
 npm install gliding
 ```
-to install.
+to install. __current version: 0.2.5__
 
 ## General Process
 - register components as provider or factory
@@ -191,4 +191,4 @@ No, I think, it haven't been tested a lot yet, also it lacks a lot of other feat
 
 ### development
 
-I am trying to apply to graduate school these days, and I have serveral projects and courses at the same time, so I'm very very busy. So [__gliding__](https://github.com/BenBBear/gliding) wou't be developed so actively like I did the recent three days. But I would still work on it, and will have more time on it when my other burning priorities pass.
+I am trying to apply to graduate school these days, and I have serveral projects and courses at the same time, so I'm very very busy. So [__gliding__](https://github.com/BenBBear/gliding) wou't be developed so actively like I did at the beginning three days. But I would still work on it, and will have more time on it when my other burning priorities pass.

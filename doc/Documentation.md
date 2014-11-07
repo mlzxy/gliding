@@ -144,9 +144,20 @@ Direct access with the template engine, default is __swig__
 The [$render](#$render) and [$template](#$template)  not be used in the handlers usually, the gliding will automatically render data and write stream, you only need to set $scope.
 
 ## handler
-`md.handler.register("GET", "/form", [f7,]);` <- here
-
-
+`md.handler.register("GET", "/form", [f7,], options);` <- here
+- The first arguments are method, support: put,get,post,head,options,delete and also all to match all. (just as the [router](https://github.com/gett/router) did.)
+- the second argument is path
+- the third argument is a array of function, they are executed in order and share data on $scope like
+```
+function f1($scope, $service){
+  $scope.x = 1;
+}
+function f2($scope, $service){
+  console.log($scope.x);
+}
+```
+- __IMPORTANT:__ all handler function must have one argument, and the first argument must be $scope!
+- the fourth argument is optional, the options would pass to all the services' callback, so in this way control the behavior of the service.
 
 ## Dependency 
 
