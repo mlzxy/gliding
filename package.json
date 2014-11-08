@@ -1,6 +1,6 @@
 {
     "name": "gliding",
-    "version": "0.2.5",
+    "version": "0.3.1",
     "description": "a super minimal web framework based on nodejs, try to save you from the callback hell",
     "homepage": "https://github.com/BenBBear/gliding",
     "main": "index.js",

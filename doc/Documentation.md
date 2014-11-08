@@ -63,7 +63,9 @@ After inject our components, we must export it with the name `myModule`, as `exp
 <br>
 <br>
 <br>
-# provider & factory
+<br>
+
+# Provider & Factory
 `md.provider.register('$form', f);` <- here
 `md.factory.register('dbfactory',obj)` <- here
 
@@ -71,7 +73,8 @@ In fact, provider and factory are treated exact the same internally in the glidi
 - provider must start with `$` and not end with `Factory`
 - factory must end with `Factory` and not start with `$`
 - factory must be an `object`
-### general interface from provider & factory: this.callback
+
+## general interface from provider & factory: this.callback
 
 - provider or factory may or may not have an attribute __callback__
 - if not, here is how gliding treat them(see more in [__How it works__](https://github.com/BenBBear/gliding#how-it-works)):
@@ -134,6 +137,42 @@ no need to explain.
 
 
 
+### $form
+
+Just inject [Formidable](https://github.com/felixge/node-formidable) as a provider, could access `$form.fields` and `$form.files`, this provider is as simple as following:
+
+```js
+var form = new formidable.IncomingForm();
+var f = {
+    callback: function(data, options, fun) { //must have interface
+        form.parse(data.HTTP.Request, function(err, fields, files) {
+            fun({
+                'fields': fields,
+                'files': files
+            });
+        });
+    }
+};
+```
+
+
+### $cookie
+
+`$cookie.value`  is the current cookie value of this connection(client), and could use `$cookie.write(obj)` to set cookie as following:
+
+```js
+var f8 = function($scope, $cookie) {
+    $scope.JSON = $cookie;
+    if ($cookie.value === undefined) {
+        $cookie.write({
+            cookie_test: 'meow'
+        });
+    }
+    return false;
+};
+```
+
+So this way we could control __session__ and __cookie__ easily.
 ### $final
 
 `$final` though is a provider, is a special handler by default is `undefined`, if defined, would get called at the end of your handler chain even you chain stop in the middle, follow the same rule with handlers.
@@ -157,7 +196,10 @@ Direct access with the template engine, default is __swig__
 
 
 The [$render](#$render) and [$template](#$template)  not be used in the handlers usually, the gliding will automatically render data and write stream, you only need to set $scope.
-
+<br>
+<br>
+<br>
+<br>
 # handler
 `md.handler.register("GET", "/form", [f7,], options);` <- here
 - The first arguments are method, support: put,get,post,head,options,delete and also all to match all. (just as the [router](https://github.com/gett/router) did.)
@@ -174,16 +216,6 @@ function f2($scope, $service){
 - __IMPORTANT:__ all handler function must have one argument, and the first argument must be $scope!
 - the fourth argument is optional, the options would pass to all the services' callback, so in this way control the behavior of the service.
 
-## Dependency 
-
-__Gliding__ use packages:
-
-- "cli-color": for printing
-- "formidable": in the example code
-- "mime": for the static server
-- "router": for routing
-- "swig": for templating
-- "walk": for easy read file.
 
 <br>
 <br>
@@ -197,6 +229,10 @@ Since there are too many, I only list these here, __TO BE CONTINUE__
  - file\~
 
 - static file server too simple, access disk every time.
+
+- an complete test and benchmark.
+
+- cluster support
 
 <br>
 <br>

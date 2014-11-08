@@ -27,6 +27,12 @@ Also I have some tastes on [angularjs](https://github.com/angular), so I want it
 <br>
 # Usage 
 
+## Update news
+
+Now provide easy "api" for `$form` and `$cookie`, also fix bug on `$scope.JSON` in this version.
+
+
+
 ## Installation
 
 Once you have node and npm installed properly, just use
@@ -34,7 +40,9 @@ Once you have node and npm installed properly, just use
 ```shell
 npm install gliding
 ```
-to install. __current version: 0.2.5__
+to install. __current version: 0.3.1__
+
+
 
 ## General Process
 - register components as provider or factory
@@ -60,9 +68,9 @@ myServer.Run();
 ```js
 var gliding = require('gliding');
 var md = new gliding.Module(); 
-md.provider.register('$form', foo);
+md.provider.register('$fun', foo);
 md.factory.register('dbFactory',obj);
-md.handler.register('GET','/',[ function($scope,$form,dbFactory){
+md.handler.register('GET','/',[ function($scope,$fun,$form,$cookie,dbFactory){
 }]);
 exports.myModule = md;
 ```
