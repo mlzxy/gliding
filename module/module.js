@@ -46,10 +46,11 @@ var registerHandler = function(method, pathName, funChain, options) {
         if (!util.isFunction(funChain[v]))
             throw new Error("Handler: " + pathName + "\n" + "Method:" + method + "\n There are non-functions in the function array!\n");
     }
+    method = method.toUpperCase();
 
     if (method == 'POST' || method == 'GET')
         this.content.push({
-            'pathName': method.toUpperCase().slice(0, 3) + pathName,
+            'pathName': method.slice(0, 3) + pathName,
             'funChain': funChain,
             'options': options
         });

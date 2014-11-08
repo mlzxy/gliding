@@ -61,6 +61,26 @@ var f7 = function($scope) {
 };
 
 
+var f9 = function($scope) {
+    $scope.JSON = {
+        x: 1,
+        y: 2
+    };
+    return false;
+};
+
+
+
+var f8 = function($scope, $cookie) {
+    $scope.JSON = $cookie;
+    if ($cookie.value === undefined) {
+        $cookie.write({
+            cookie_test: 'meow'
+        });
+    }
+    return false;
+};
+
 
 md.handler.register("GET", "/1", [f0, f1, f2, f3], {
     'choose': 'a'
@@ -71,5 +91,6 @@ md.handler.register("GET", "/{base}/{foo}", [f5, f2]); //ok
 md.handler.register("GET", "/form", [f7]); //ok
 md.handler.register("POST", "/upload", [f6]); //ok
 
-
+md.handler.register("get", "/testCookie", [f8]);
+md.handler.register("get", "/testJson", [f9]);
 exports.myModule = md;

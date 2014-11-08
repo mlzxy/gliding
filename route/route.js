@@ -145,7 +145,7 @@ var getRouteHandler = function(funChain, options, service) {
                 ));
                 response.end();
             } else {
-                response.write($scope.JSON);
+                response.write(JSON.stringify($scope.JSON));
                 response.end();
             }
         }

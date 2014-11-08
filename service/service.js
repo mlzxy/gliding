@@ -11,6 +11,8 @@ var builtInService = function(options) {
     provider['$template'] = builtIn.template;
     provider['$errorHandle'] = builtIn.errorHandle;
     provider['$final'] = builtIn.final;
+    provider['$form'] = builtIn.form;
+    provider['$cookie'] = builtIn.cookie;
     return provider;
 };
 

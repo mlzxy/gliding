@@ -55,7 +55,44 @@ var renderer = function(options) {
     };
 };
 
+
+
+
+
+var formidable = require('formidable');
+var form = new formidable.IncomingForm();
+var f = {
+    callback: function(data, options, fun) { //must have interface
+        form.parse(data.HTTP.Request, function(err, fields, files) {
+            fun({
+                'fields': fields,
+                'files': files
+            });
+        });
+    }
+};
+
+
+var ck = require('cookie');
+var cookie = {
+    callback: function(scope, options, fun) {
+        var req = scope.HTTP.Request,
+            result = {};
+        result.value = req.headers.cookie && ck.parse(req.headers.cookie);
+        result.write = function(json) {
+            var t = [];
+            for (var v in json) {
+                t.push(ck.serialize(v, json[v]));
+            }
+            scope.HTTP.Response.setHeader("Set-Cookie", t);
+        };
+        fun(result);
+    }
+};
+
 exports.renderer = renderer;
 exports.errorHandle = simple_ErrorHandle;
 exports.final = undefined;
+exports.form = f;
+exports.cookie = cookie;
 exports.template = template;
