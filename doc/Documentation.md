@@ -112,6 +112,13 @@ default:  nothing(data.user,f);
 ### $scope
 You store all you data inside $scope and share them accross handlers and services. It has some special attributes
 
+- PARAMS:
+ matching variable in the path you register:
+ ```js
+ handler.register("get","/{bar}/{foo}",[...]);
+ ```
+ then `$scope.PARAMS = {bar:xxx,foo:xxx}`
+
 - HTTP:
  - HTTP.Request & HTTP.Response: no need to explain
  - HTTP.status & HTTP.Head: the http head that would return in this connection, default are `200`, `'text/html'`;,you could change it before the end of your handler chain.
@@ -154,7 +161,7 @@ The [$render](#$render) and [$template](#$template)  not be used in the handlers
 # handler
 `md.handler.register("GET", "/form", [f7,], options);` <- here
 - The first arguments are method, support: put,get,post,head,options,delete and also all to match all. (just as the [router](https://github.com/gett/router) did.)
-- the second argument is path
+- the second argument is path, same usage in the [router](https://github.com/gett/router), support regex, varaible matching...
 - the third argument is a array of function, they are executed in order and share data on $scope like
 ```
 function f1($scope, $service){

@@ -12,9 +12,7 @@ var naiveFactory = function() {
     function mySetTimeout(x, y) {
         setTimeout(x, y);
     }
-
     this.callback = function(data, options, fun) { //must have interface
-
         var next = function() {
             var x = {};
             x.getNumber = function() {
@@ -22,7 +20,6 @@ var naiveFactory = function() {
             };
             fun(x);
         };
-
         if (options !== undefined)
             switch (options.choose) {
                 case 'a':

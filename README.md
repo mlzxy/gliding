@@ -62,7 +62,8 @@ var gliding = require('gliding');
 var md = new gliding.Module(); 
 md.provider.register('$form', foo);
 md.factory.register('dbFactory',obj);
-md.handler.register('GET','/',[f1,f2]);
+md.handler.register('GET','/',[ function($scope,$form,dbFactory){
+}]);
 exports.myModule = md;
 ```
 
