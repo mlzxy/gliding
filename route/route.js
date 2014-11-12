@@ -134,17 +134,18 @@ var getRouteHandler = function(funChain, options, service) {
         }
 
         function final() {
-
-            response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
             if ($scope.HTML !== undefined) {
+                response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
                 response.write(service['$template'].render($scope.HTML, $scope.JSON));
                 response.end();
             } else if ($scope.TMPL !== undefined) {
+                response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
                 response.write(service['$render'].render($scope.TMPL,
                     $scope.JSON
                 ));
                 response.end();
-            } else {
+            } else if ($scope.JSON !== undefined) {
+                response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
                 response.write(JSON.stringify($scope.JSON));
                 response.end();
             }

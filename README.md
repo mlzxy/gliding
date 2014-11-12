@@ -29,7 +29,41 @@ Also I have some tastes on [angularjs](https://github.com/angular), so I want it
 
 ## Update news
 
-Now provide easy "api" for `$form` and `$cookie`, also fix bug on `$scope.JSON` in this version.
+- Now provide easy "api" for `$form` and `$cookie`, also fix bug on `$scope.JSON` in this version.
+
+- Also fix bugs in [route.js](https://github.com/BenBBear/gliding/blob/master/route/route.js), you don't necessarily have attribute `callback` on the __factory__ and __provider__ that register to use those non-blocking functions. This way will do fine, in the handler:
+
+```js
+function($scope,$render ,$dbFactory){
+$dbFactory.query($scope.username, function(data){
+      $scope.HTTP.Response.write($render(filename,json))
+      $scope.HTTP.Response.end();
+  };
+}
+```
+
+But because by default the __gliding__ would help you to write the `HTTP.Response` based on the `$scope.JSON` and `$scope.HTML, $scope.TMPL` after the execution of handler chain. So if you use callback function on your own, then `$scope.JSON` must be `undefined` when the handler function return. The following code in [route.js](https://github.com/BenBBear/gliding/blob/master/route/route.js) explains why:
+```js
+            if ($scope.HTML !== undefined) {
+                response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
+                response.write(service['$template'].render($scope.HTML, $scope.JSON));
+                response.end();
+            } else if ($scope.TMPL !== undefined) {
+                response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
+                response.write(service['$render'].render($scope.TMPL,
+                    $scope.JSON
+                ));
+                response.end();
+            } else if ($scope.JSON !== undefined) {
+                response.writeHead($scope.HTTP.status, $scope.HTTP.Head);
+                response.write(JSON.stringify($scope.JSON));
+                response.end();
+            }
+```
+
+
+Also, non-blocking functions inside the *handler chain* would mess up the order of execution, so the non-blocking functions must occur in the tail of the __handler chain__. The last thing added, if the `$final` provider is defined when you have non-blocking in the *handler chain*, which will exectue at end of each handler execution chain, its behavior would be restricted because of the execution order.
+
 
 
 
@@ -40,7 +74,7 @@ Once you have node and npm installed properly, just use
 ```shell
 npm install gliding
 ```
-to install. __current version: 0.3.1__
+to install. __current version: 0.3.2_
 
 
 
